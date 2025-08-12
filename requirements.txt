@@ -1,0 +1,11 @@
+# Core Agent & LLM Libraries
+langchain
+langchain-openai
+langchain-aws
+autogenai
+chromadb
+langsmith
+
+# Utilities & AWS
+boto3
+python-dotenv
