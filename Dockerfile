@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # 4. Copy the rest of the application source code and config into the container
 COPY src/ ./src/
-COPY .env .
+# COPY .env .
 
 # 5. Specify the command to run when the container starts
 CMD ["python", "src/aura/main.py"]
