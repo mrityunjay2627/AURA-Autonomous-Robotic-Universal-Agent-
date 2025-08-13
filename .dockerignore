@@ -1,0 +1,17 @@
+# .dockerignore
+
+# Git and Docker files
+.git/
+.gitignore
+Dockerfile
+.dockerignore
+
+# Python virtual environment and caches
+venv/
+__pycache__/
+*.pyc
+
+# Local data and IDE settings
+aura_memory/
+.idea/
+.vscode/

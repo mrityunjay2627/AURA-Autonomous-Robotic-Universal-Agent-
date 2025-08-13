@@ -16,7 +16,7 @@ class MemoryManager:
             name="aura_knowledge",
             embedding_function=self.embedding_function
         )
-        print("✅ MemoryManager initialized with ChromaDB.")
+        print("Memory Manager initialized with ChromaDB.")
 
     # --- THIS IS THE CORRECTED FUNCTION ---
     def add_memory(self, fact: str, metadata: dict = None):
