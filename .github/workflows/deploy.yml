@@ -2,21 +2,19 @@
 
 name: Deploy AURA Agent to AWS
 
-# Trigger this workflow on every push to the main branch
 on:
   push:
     branches:
       - main
 
-# Environment variables available to all jobs and steps
 env:
-  AWS_REGION: us-east-1
-  # IMPORTANT: Change this to your ECR repository name
-  ECR_REPOSITORY: aura-agent 
+  AWS_REGION: us-west-2
+  ECR_REPOSITORY: aura-agent
   ECS_SERVICE: aura-service
   ECS_CLUSTER: aura-cluster
-  ECS_TASK_DEFINITION_FAMILY: aura-agent-task-1
-  ECS_TASK_DEFINITION: aura-agent-task-1.json
+  # --- FIX: ADDED A DEDICATED VARIABLE FOR THE TASK DEFINITION FAMILY ---
+  ECS_TASK_DEFINITION_FAMILY: aura-agent-task-1 
+  ECS_TASK_DEFINITION_FILE: aura-agent-task-1.json # Output file
   CONTAINER_NAME: aura-agent-container
 
 jobs:
@@ -36,10 +34,12 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Log in to Amazon ECR
+      # ... (this step remains the same) ...
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build, tag, and push image to Amazon ECR
+      # ... (this step remains the same) ...
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -50,14 +50,15 @@ jobs:
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
     - name: Download current task definition
+      # --- FIX: USE THE NEW, CORRECT VARIABLE ---
       run: |
-        aws ecs describe-task-definition --task-definition ${{ env.ECR_REPOSITORY }} --query taskDefinition > ${{ env.ECS_TASK_DEFINITION }}
+        aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION_FAMILY }} --query taskDefinition > ${{ env.ECS_TASK_DEFINITION_FILE }}
 
     - name: Fill in new image ID in task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        task-definition: ${{ env.ECS_TASK_DEFINITION_FILE }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
 
