@@ -22,7 +22,7 @@ def run_aura():
     
     # Give a sample instruction that requires navigation
     # user_instruction = "First, tell me the time, and then figure out how to get to the charging dock."
-    user_instruction = "Please remember that my name is Priyanshu. Then, tell me what you just remembered."
+    user_instruction = "Please remember that my name is Priyanshu M Sharma. Then, tell me what you just remembered."
     
     result = aura_agent_executor.invoke({"input": user_instruction})
     
