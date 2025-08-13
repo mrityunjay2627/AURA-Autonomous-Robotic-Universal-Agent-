@@ -15,6 +15,7 @@ env:
   ECR_REPOSITORY: aura-agent 
   ECS_SERVICE: aura-service
   ECS_CLUSTER: aura-cluster
+  ECS_TASK_DEFINITION_FAMILY: aura-agent-task-1
   ECS_TASK_DEFINITION: aura-agent-task-1.json
   CONTAINER_NAME: aura-agent-container
 
